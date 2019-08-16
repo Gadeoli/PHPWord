@@ -775,9 +775,9 @@ class TemplateProcessor
      */
     public function replaceBlock($blockname, $replacement)
     {
-        $matches = array();
+        //removed from start of regex (<\?xml.*)
         preg_match(
-            '/(<\?xml.*)(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
+            '/(<w:p.*>\${' . $blockname . '}<\/w:.*?p>)(.*)(<w:p.*\${\/' . $blockname . '}<\/w:.*?p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
@@ -789,7 +789,11 @@ class TemplateProcessor
                 $this->tempDocumentMainPart
             );
         }
+
+        //remove the start block sign
+        $this->setValue($blockname, '');
     }
+
 
     /**
      * Delete a block of text.
